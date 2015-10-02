@@ -1,0 +1,19 @@
+logging:
+  level: info
+  console: true
+  files:
+    - "/var/log/cyanite/cyanite.log"
+inputs:
+  - type: "carbon"
+  - type: "pickle"
+store:
+  type: "cassandra-v2"
+  cluster: "127.0.0.1"
+index:
+  type: "memory"
+api:
+  port: 8080
+engine:
+  rules:
+    default:
+      - "5s:1h"

@@ -1,0 +1,10 @@
+- hosts: all
+  # gather_facts: no
+  hosts: virtlab
+  sudo: yes
+  roles:
+    - cassandra
+    - leiningen
+    - cyanite
+    - eye
+    - graphite

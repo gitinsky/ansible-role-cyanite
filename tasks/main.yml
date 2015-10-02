@@ -1,0 +1,43 @@
+- name: install dependencies
+  apt: name=git
+  
+- name: clone cyanite repo
+  git: repo=https://github.com/pyr/cyanite.git dest={{ lein_home }}/cyanite
+       update={{ lein_latest }}
+  sudo_user: "{{ lein_user }}"
+
+- name: get version
+  shell: grep "defproject" {{ lein_home }}/cyanite/project.clj|awk {'print $3'}|tr -d '"'
+  register: version
+  changed_when: no
+
+- debug: var=version.stdout
+
+- name: create deb
+  shell: lein fatdeb
+         chdir={{ lein_home }}/cyanite/
+         creates=target/cyanite_{{ version.stdout }}_all.deb
+  sudo_user: "{{ lein_user }}"
+
+# lein uberjar
+
+- name: check if metric keyspace is created in cassandra
+  shell: /opt/cassandra/bin/cqlsh -k metric -e 'SELECT dateof(now()) FROM system.local;'
+  failed_when: no
+  register: keyspace
+  changed_when: keyspace.rc != 0
+
+- name: create metric keyspace
+  shell: /opt/cassandra/bin/cqlsh -f {{ lein_home }}/cyanite/doc/schema.cql
+  when: keyspace.changed
+
+- name: install cyanite_{{ version.stdout }}_all.deb
+  apt: deb={{ lein_home }}/cyanite/target/cyanite_{{ version.stdout }}_all.deb
+
+- name: configure cyanite
+  template: src=cyanite.yaml dest=/etc/cyanite.yaml
+  notify: cyanite reload
+
+- name: ensure cyanite is started
+  service: name=cyanite state=started
+  ignore_errors: yes
