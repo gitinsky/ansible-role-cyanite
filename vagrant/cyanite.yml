@@ -10,5 +10,5 @@
     # - { role: docker-io, tags: ['docker'] }
     # - { role: grafana-dockerized, tags: ['grafana'] }
     # - { role: grafana-container, tags: ['grafana'] }
-    - { role: statsd, graphite_port: 8080, tags: ['statsd'] }
+    - { role: statsd, graphite_port: 8888, tags: ['statsd'] }
     - { role: grafana, tags: ['grafana'] }
