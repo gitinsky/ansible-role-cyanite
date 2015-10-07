@@ -6,5 +6,7 @@
     - cassandra
     - leiningen
     - cyanite
-    - eye
     - graphite
+    - docker-io
+    - grafana-dockerized
+    - grafana-container
