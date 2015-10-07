@@ -3,10 +3,11 @@
   hosts: virtlab
   sudo: yes
   roles:
-    - cassandra
-    - leiningen
-    - cyanite
-    - graphite
-    - docker-io
-    - grafana-dockerized
-    - grafana-container
+    - { role: cassandra, tags: ['cassandra'] }
+    - { role: leiningen, tags: ['leiningen'] }
+    - { role: cyanite, tags: ['cyanite'] }
+    - { role: graphite, tags: ['graphite'] }
+    - { role: docker-io, tags: ['docker'] }
+    - { role: grafana-dockerized, tags: ['grafana'] }
+    - { role: grafana-container, tags: ['grafana'] }
+    - { role: statsd, graphite_port: 8888 tags: ['statsd'] }
