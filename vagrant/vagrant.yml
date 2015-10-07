@@ -10,3 +10,5 @@
 
     - name: now run 'ansible-playbook cyanite.yml'
       debug: msg="now run 'ansible-playbook cyanite.yml'"
+
+- include: cyanite.yml
