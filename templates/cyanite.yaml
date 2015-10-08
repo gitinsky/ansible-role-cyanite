@@ -16,4 +16,4 @@ api:
 engine:
   rules:
     default:
-      - "5s:1h"
+      - "5s:30d"
