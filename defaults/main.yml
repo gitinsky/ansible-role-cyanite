@@ -1,3 +1,10 @@
 lein_user: lein
 lein_home: /opt/lein
 lein_latest: no
+
+cyanite_api_port: 8080
+cyanite_cassandra_ip: 127.0.0.1
+cyanite_https: no
+cyanite_if: eth0
+# use IP or inventory_hostname
+cyanite_access_by_inventory_hostname_not_ip: no

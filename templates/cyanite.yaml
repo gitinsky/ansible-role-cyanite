@@ -8,11 +8,11 @@ inputs:
   - type: "pickle"
 store:
   type: "cassandra-v2"
-  cluster: "127.0.0.1"
+  cluster: "{{ cyanite_cassandra_ip }}"
 index:
   type: "memory"
 api:
-  port: 8080
+  port: {{ cyanite_api_port }}
 engine:
   rules:
     default:

@@ -1,14 +1,14 @@
-- hosts: all
-  # gather_facts: no
-  hosts: virtlab
+- hosts: virtlab
   sudo: yes
   roles:
-    - { role: cassandra, tags: ['cassandra'] }
-    - { role: leiningen, tags: ['leiningen'] }
-    - { role: cyanite, tags: ['cyanite'] }
-    - { role: graphite/api, tags: ['graphite'] }
-    # - { role: docker-io, tags: ['docker'] }
-    # - { role: grafana-dockerized, tags: ['grafana'] }
-    # - { role: grafana-container, tags: ['grafana'] }
-    - { role: statsd, graphite_port: 2003, tags: ['statsd'] }
+    - { role: cassandra,    tags: ['cassandra'] }
+    - { role: leiningen,    tags: ['leiningen'] }
+    - { role: cyanite,      tags: ['cyanite']   }
+    - { role: graphite/api, tags: ['graphite']  }
+    - { role: statsd,       tags: ['statsd']    }
+
+- hosts: cyanite
+  sudo: yes
+  roles:
     - { role: grafana, tags: ['grafana'] }
+      

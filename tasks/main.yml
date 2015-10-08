@@ -41,3 +41,7 @@
 - name: ensure cyanite is started
   service: name=cyanite state=started
   ignore_errors: yes
+
+- name: task for registering defaults
+  debug: msg="cyanite_if={{ cyanite_if }}, cyanite_https={{ cyanite_https }}"
+  tags: always
