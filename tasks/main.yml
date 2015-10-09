@@ -39,7 +39,7 @@
   notify: cyanite reload
 
 - name: ensure cyanite is started
-  service: name=cyanite state=started
+  service: name=cyanite state=started enabled=yes
   ignore_errors: yes
 
 - name: task for registering defaults
