@@ -29,21 +29,20 @@ Vagrant.configure(2) do |config|
       v.memory = 2048
       # v.gui = true
     end
-  end
-
-  config.vm.provision :ansible do |ansible|
-    ansible.playbook = "vagrant.yml"
-    ansible.sudo = true
-    # ansible.tags = ['debug']
-    ansible.groups = {
-      "vagrant" => ["cyanite", "cyanite2"],
-      "virtlab" => ["cyanite", "cyanite2"],
-    }
-    ansible.extra_vars = {
-      ansible_ssh_user: 'vagrant',
-      hbase_standalone:   true,
-    }
-
+    
+    cyanite_cfg.vm.provision :ansible do |ansible|
+      ansible.playbook = "vagrant.yml"
+      ansible.sudo = true
+      ansible.limit = 'all'
+      ansible.groups = {
+        "vagrant" => ["cyanite", "cyanite2"],
+        "virtlab" => ["cyanite", "cyanite2"],
+      }
+      ansible.extra_vars = {
+        ansible_ssh_user: 'vagrant',
+        hbase_standalone:   true,
+      }
+    end
   end
 
 end

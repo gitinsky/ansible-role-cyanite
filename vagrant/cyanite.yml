@@ -11,4 +11,21 @@
   sudo: yes
   roles:
     - { role: grafana, tags: ['grafana'] }
+  tasks:
       
+      - name: add datasource
+        uri: url=http://127.0.0.1:3000/api/datasources
+             user=admin
+             password=admin
+             force_basic_auth=yes
+             body_format=json
+             method=POST
+             return_content=yes
+             body='{"name":"Cyanite","type":"graphite","url":"http://127.0.0.1:8001","access":"proxy","isDefault":true}'
+             HEADER_Content-Type="application/json;charset=UTF-8"
+        register: result
+        changed_when: result.json is defined and result.json.message is defined and '"Datasource added' in result.json.message
+        failed_when: false
+        
+      - debug: var=result 
+
