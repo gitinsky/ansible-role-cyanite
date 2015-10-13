@@ -2,7 +2,6 @@
   sudo: yes
   roles:
     - { role: cassandra,    tags: ['cassandra'] }
-    - { role: leiningen,    tags: ['leiningen'] }
     - { role: cyanite,      tags: ['cyanite']   }
     - { role: graphite/api, tags: ['graphite']  }
     - { role: statsd,       tags: ['statsd']    }
