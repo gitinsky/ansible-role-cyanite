@@ -22,13 +22,13 @@
 # lein uberjar
 
 - name: check if metric keyspace is created in cassandra
-  shell: /opt/cassandra/bin/cqlsh -k metric -e 'SELECT dateof(now()) FROM system.local;'
+  shell: /opt/cassandra/bin/cqlsh {{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_int]['ipv4']['address'] }} -k metric -e 'SELECT dateof(now()) FROM system.local;'
   failed_when: no
   register: keyspace
   changed_when: keyspace.rc != 0
 
 - name: create metric keyspace
-  shell: /opt/cassandra/bin/cqlsh -f {{ lein_home }}/cyanite/doc/schema.cql
+  shell: /opt/cassandra/bin/cqlsh {{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_int]['ipv4']['address'] }} -f {{ lein_home }}/cyanite/doc/schema.cql
   when: keyspace.changed
 
 - name: install cyanite_{{ version.stdout }}_all.deb
