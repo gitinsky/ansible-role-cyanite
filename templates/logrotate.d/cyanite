@@ -1,0 +1,12 @@
+# cyanite logrotate configuration file, {{ ansible_managed }}
+
+/var/log/cyanite/cyanite.log {
+    rotate 31
+    daily
+    compress
+    missingok
+    size 100M
+    rotate 4
+    copytruncate
+    su cyanite cyanite
+}

@@ -45,3 +45,11 @@
 - name: task for registering defaults
   debug: msg="cyanite_if={{ cyanite_if }}, cyanite_https={{ cyanite_https }}"
   tags: always
+  
+- name: setup logrotate for cyanite
+  template: src=logrotate.d/cyanite dest=/etc/logrotate.d/cyanite
+  register: result
+
+- name: logrotate
+  shell: logrotate /etc/logrotate.d/cyanite
+  when: result.changed
