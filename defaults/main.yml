@@ -9,3 +9,7 @@ cyanite_if: eth0
 cyanite_access_by_inventory_hostname_not_ip: no
 
 cassandra_node_iface_int: eth0
+
+cyanite_index_type: memory
+# cyanite_index_type: elasticsearch
+cyanite_index_es_url: "http://localhost:9200/cyanite"

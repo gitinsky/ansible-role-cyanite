@@ -8,3 +8,13 @@ Graphite-api can connect to cyanite nodes by inventory_hostname or by ip, see de
 
 # Reference
 http://www.slideshare.net/planetcassandra/cassandra-summit-2014-cyanite-better-graphite-storage-with-apache-cassandra
+
+# Debug
+
+## Cyanite
+
+http://cyanitehost:8080/paths?query=*
+
+## Graphite-api
+
+http://graphiteapi:8001/metrics/find?query=*

@@ -36,10 +36,10 @@
 
 - name: configure cyanite
   template: src=cyanite.yaml dest=/etc/cyanite.yaml
-  notify: cyanite reload
+  register: cyanite_config
 
-- name: ensure cyanite is started
-  service: name=cyanite state=started enabled=yes
+- name: ensure cyanite is started or restarted
+  service: name=cyanite state={{ 'restarted' if cyanite_config.changed else 'started' }} enabled=yes
   ignore_errors: yes
 
 - name: task for registering defaults
