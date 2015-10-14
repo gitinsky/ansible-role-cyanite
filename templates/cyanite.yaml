@@ -10,7 +10,10 @@ store:
   type: "cassandra-v2"
   cluster: "{{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_int]['ipv4']['address'] }}"
 index:
-  type: "memory"
+  type: "{{ cyanite_index_type }}"
+{% if cyanite_index_type == "elasticsearch" %}
+  url: "{{ cyanite_index_es_url }}"
+{% endif %}
 api:
   port: {{ cyanite_api_port }}
 engine:
