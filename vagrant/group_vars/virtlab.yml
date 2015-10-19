@@ -1,7 +1,17 @@
 cyanite_if: eth1
 cyanite_hosts_group: virtlab
-cassandra_node_iface_ext: lo
-cassandra_node_iface_int: lo
+cassandra_node_iface_ext: eth1
+cassandra_node_iface_int: eth1
 i_do_accept_oracle_binary_code_license_agreement_for_the_java_se_platform_products_and_javafx_please_skip_the_prompt: yes
 cassandra_cluster_group_name: virtlab
 cassandra_mem_gb: 1
+cassandra_version: stable
+
+cyanite_index_type: elasticsearch
+cyanite_index_es_url: "http://127.0.0.1:9200/cyanite"
+
+elasticsearch_hosts: virtlab
+elasticsearch_if: eth1
+
+opscenter_inventory_hostname: cyanite
+opscenter_int: eth1

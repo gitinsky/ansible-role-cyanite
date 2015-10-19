@@ -6,6 +6,12 @@ This role is part of cyanite–cassandra–statsd–graphite-api–grafana insta
 
 Graphite-api can connect to cyanite nodes by inventory_hostname or by ip, see defaults for more details.
 
+If you use elasticsearch and cyanite fails to create index, use the following command:
+
+```bash
+curl -XPUT 'http://localhost:9200/cyanite/'
+```
+
 # Reference
 http://www.slideshare.net/planetcassandra/cassandra-summit-2014-cyanite-better-graphite-storage-with-apache-cassandra
 

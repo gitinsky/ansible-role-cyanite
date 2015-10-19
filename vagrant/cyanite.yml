@@ -1,15 +1,25 @@
 - hosts: virtlab
   sudo: yes
   roles:
-    - { role: cassandra,    tags: ['cassandra'] }
-    - { role: cyanite,      tags: ['cyanite']   }
-    - { role: graphite/api, tags: ['graphite']  }
-    - { role: statsd,       tags: ['statsd']    }
+    - { role: cassandra,                tags: ['cassandra'] }
+    - { role: opscenter-agent,          tags: ['opscenter'] }
+    - { role: cyanite,                  tags: ['cyanite']   }
+    - { role: graphite/api,             tags: ['graphite']  }
+    - { role: statsd,                   tags: ['statsd']    }
+    - { role: docker-io,                tags: ['docker']    }
+    - { role: elasticsearch-dockerized, tags: ['esd'] }
+
+- hosts: virtlab
+  sudo: yes
+  serial: 1
+  roles:
+      - { role: elasticsearch-container, tags: ['es'] }
 
 - hosts: cyanite
   sudo: yes
   roles:
-    - { role: grafana, tags: ['grafana'] }
+    - { role: grafana,   tags: ['grafana']   }
+    - { role: opscenter, tags: ['opscenter'] }
   tasks:
       
       - name: add datasource
