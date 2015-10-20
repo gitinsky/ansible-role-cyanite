@@ -13,8 +13,12 @@ index:
   type: "{{ cyanite_index_type }}"
 {% if cyanite_index_type == "elasticsearch" %}
   url: "{{ cyanite_index_es_url }}"
+{% elif cyanite_index_type == "cassandra" %}
+  options:
+      cluster: "{{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_int]['ipv4']['address'] }}"
 {% endif %}
 api:
+  host: "{{ hostvars[inventory_hostname]['ansible_' + cyanite_if]['ipv4']['address'] }}"
   port: {{ cyanite_api_port }}
 engine:
   rules:

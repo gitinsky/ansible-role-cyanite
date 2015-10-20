@@ -1,6 +1,7 @@
 lein_user: lein
 lein_home: /opt/lein
 lein_latest: no
+cyanite_git_version: master
 
 cyanite_api_port: 8080
 cyanite_https: no
@@ -10,6 +11,7 @@ cyanite_access_by_inventory_hostname_not_ip: no
 
 cassandra_node_iface_int: eth0
 
-cyanite_index_type: memory
+cyanite_index_type: cassandra
+# cyanite_index_type: memory
 # cyanite_index_type: elasticsearch
 cyanite_index_es_url: "http://localhost:9200/cyanite"

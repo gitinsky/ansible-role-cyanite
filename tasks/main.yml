@@ -3,7 +3,7 @@
   
 - name: clone cyanite repo
   git: repo=https://github.com/pyr/cyanite.git dest={{ lein_home }}/cyanite
-       update={{ lein_latest }}
+       update={{ lein_latest }} version={{ cyanite_git_version }}
   sudo_user: "{{ lein_user }}"
 
 - name: get version
@@ -16,29 +16,51 @@
 - name: create deb
   shell: lein fatdeb
          chdir={{ lein_home }}/cyanite/
-         creates=target/cyanite_{{ version.stdout }}_all.deb
+         # creates=target/cyanite_{{ version.stdout }}_all.deb
   sudo_user: "{{ lein_user }}"
-
+  
 # lein uberjar
 
+- name: check if checksum changed
+  command: diff {{ lein_home }}/cyanite_{{ version.stdout }}_all.deb.md5 {{ lein_home }}/cyanite/target/cyanite_{{ version.stdout }}_all.deb.md5
+  register: checksum
+  changed_when: checksum.rc != 0
+  failed_when: no
+
+- name: copy checksum file
+  command: cp -v {{ lein_home }}/cyanite/target/cyanite_{{ version.stdout }}_all.deb.md5 {{ lein_home }}/
+  when: checksum.changed
+
+- name: set fact to mark cyanite group
+  set_fact:
+    cyanite_hosts_deb_marker: cyanite_hosts_deb
+  tags: always
+  
+- name: group by marker
+  group_by: key=cyanite_hosts_deb_marker
+  changed_when: no
+  tags: always
+
+- name: install cyanite_{{ version.stdout }}_all.deb one by one
+  apt: deb={{ lein_home }}/cyanite/target/cyanite_{{ version.stdout }}_all.deb
+  with_items: groups['cyanite_hosts_deb_marker']
+  when: checksum.changed and "hostvars[item].inventory_hostname == inventory_hostname"
+
+- name: configure cyanite
+  template: src=cyanite.yaml dest=/etc/cyanite.yaml
+  register: cyanite_config
+
 - name: check if metric keyspace is created in cassandra
-  shell: /opt/cassandra/bin/cqlsh {{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_int]['ipv4']['address'] }} -k metric -e 'SELECT dateof(now()) FROM system.local;'
+  shell: /opt/cassandra/bin/cqlsh {{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_ext]['ipv4']['address'] }} -k metric -e 'SELECT dateof(now()) FROM system.local;'
   failed_when: no
   register: keyspace
   changed_when: keyspace.rc != 0
 
 - name: create metric keyspace
-  shell: /opt/cassandra/bin/cqlsh {{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_int]['ipv4']['address'] }} -f {{ lein_home }}/cyanite/doc/schema.cql
+  shell: /opt/cassandra/bin/cqlsh {{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_ext]['ipv4']['address'] }} -f {{ lein_home }}/cyanite/doc/schema.cql
   register: result
-  ignore_errors: "result.stderr is defined and 'already exists' in result.stderr"
+  failed_when: "result.rc != 0 and 'already exists' not in result.stderr"
   when: keyspace.changed
-
-- name: install cyanite_{{ version.stdout }}_all.deb
-  apt: deb={{ lein_home }}/cyanite/target/cyanite_{{ version.stdout }}_all.deb
-
-- name: configure cyanite
-  template: src=cyanite.yaml dest=/etc/cyanite.yaml
-  register: cyanite_config
 
 - name: ensure cyanite is started or restarted
   service: name=cyanite state={{ 'restarted' if cyanite_config.changed else 'started' }} enabled=yes
