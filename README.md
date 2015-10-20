@@ -8,6 +8,11 @@ Graphite-api can connect to cyanite nodes by inventory_hostname or by ip, see de
 
 If you use elasticsearch and cyanite fails to create index, use the following command:
 
+### Variables
+
+```cyanite_if``` – if not set, ```{{ ansible_default_ipv4.interface }}``` will be used
+```cassandra_node_iface_int``` – if not set, ```{{ ansible_default_ipv4.interface }}``` will be used
+
 ```bash
 curl -XPUT 'http://localhost:9200/cyanite/'
 ```
