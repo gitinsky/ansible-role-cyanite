@@ -1,3 +1,0 @@
-[submodule "vagrant/inventory/ansible-vagrant-inventory"]
-	path = vagrant/inventory/ansible-vagrant-inventory
-	url = https://github.com/gitinsky/ansible-vagrant-inventory.git
