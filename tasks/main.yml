@@ -28,7 +28,7 @@
   failed_when: no
 
 - name: copy checksum file
-  command: cp -v {{ lein_home }}/cyanite/target/cyanite_{{ version.stdout }}_all.deb.md5 {{ lein_home }}/
+  command: cp -vp {{ lein_home }}/cyanite/target/cyanite_{{ version.stdout }}_all.deb.md5 {{ lein_home }}/
   when: checksum.changed
 
 - name: set fact to mark cyanite group
