@@ -3,7 +3,7 @@
   
 - name: clone cyanite repo
   git: repo=https://github.com/pyr/cyanite.git dest={{ lein_home }}/cyanite
-       update={{ lein_latest }} version={{ cyanite_git_version }}
+       update={{ cyanite_latest }} version={{ cyanite_git_version }}
   sudo_user: "{{ lein_user }}"
 
 - name: get version

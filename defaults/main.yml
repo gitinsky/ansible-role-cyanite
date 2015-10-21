@@ -1,6 +1,6 @@
 lein_user: lein
 lein_home: /opt/lein
-lein_latest: no
+cyanite_latest: no
 cyanite_git_version: master
 
 cyanite_api_port: 8080
