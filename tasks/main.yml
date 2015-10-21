@@ -49,6 +49,7 @@
 - name: configure cyanite
   template: src=cyanite.yaml dest=/etc/cyanite.yaml
   register: cyanite_config
+  tags: cyanite_conf
 
 - name: check if metric keyspace is created in cassandra
   shell: /opt/cassandra/bin/cqlsh {{ hostvars[inventory_hostname]['ansible_' + cassandra_node_iface_ext]['ipv4']['address'] }} -k metric -e 'SELECT dateof(now()) FROM system.local;'
@@ -65,6 +66,7 @@
 - name: ensure cyanite is started or restarted
   service: name=cyanite state={{ 'restarted' if cyanite_config.changed else 'started' }} enabled=yes
   ignore_errors: yes
+  tags: cyanite_conf
 
 - name: task for registering defaults
   debug: msg="cyanite_if={{ cyanite_if }}, cyanite_https={{ cyanite_https }}"

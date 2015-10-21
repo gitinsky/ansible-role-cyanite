@@ -12,3 +12,8 @@ cyanite_index_type: cassandra
 # cyanite_index_type: memory
 # cyanite_index_type: elasticsearch
 cyanite_index_es_url: "http://localhost:9200/cyanite"
+
+cyanite_queues_ingestq_pool_size: 4
+cyanite_queues_ingestq_queue_capacity: 1000
+cyanite_queues_writeq_pool_size: 4
+cyanite_queues_writeq_queue_capacity: 1000

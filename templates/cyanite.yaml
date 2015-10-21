@@ -20,6 +20,14 @@ index:
 api:
   host: "{{ hostvars[inventory_hostname]['ansible_' + cyanite_if|default( hostvars[inventory_hostname].ansible_default_ipv4.interface )]['ipv4']['address'] }}"
   port: {{ cyanite_api_port }}
+queues:
+  defaults:
+    ingestq:
+      pool-size: {{ cyanite_queues_ingestq_pool_size }}
+      queue-capacity: {{ cyanite_queues_ingestq_queue_capacity }}
+    writeq:
+      pool-size: {{ cyanite_queues_writeq_pool_size }}
+      queue-capacity: {{ cyanite_queues_writeq_queue_capacity }}
 engine:
   rules:
     default:
